@@ -127,3 +127,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+
+# 配置文件等
+.vscode/
+config.php
+update.json
+config/
+cache/
+update/
+
+# 导出后的程序文件
+ProgramFiles/

@@ -1,0 +1,15 @@
+[
+	".*\\.md",
+	"LICENSE",
+	".*\\.gitignore",
+	"\\.vscode/?.*",
+	"config\\.php",
+	"ProgramFilesExporter/?.*",
+	"ProgramFiles/?.*",
+	"ProgramFiles\\..*",
+	"\\.git/?.*",
+	"update\\.json",
+	"cache/?.*",
+	"config/?.*",
+	"update/?.*"
+]

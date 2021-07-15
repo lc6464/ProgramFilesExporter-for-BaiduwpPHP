@@ -30,6 +30,11 @@ except: # 若获取失败
 	sys.exit(0)
 
 
+if files == []:
+	print('没有文件需要导出！')
+	sys.exit(0)
+
+
 try: # 尝试复制文件
 	if not path.exists('../ProgramFiles/'): # 若文件夹不存在则创建
 		os.mkdir('../ProgramFiles/')

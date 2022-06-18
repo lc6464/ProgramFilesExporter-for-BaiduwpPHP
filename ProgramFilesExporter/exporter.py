@@ -9,8 +9,9 @@ from os import path
 try: # 尝试读取排除规则列表
 	with open('./exclude-list.json', encoding="utf-8") as f:
 		excludeList = loadJSON(f)
-except: # 若读取失败
+except Exception as e: # 若读取失败
 	print('读取排除规则列表失败！')
+	print(e)
 	sys.exit(0)
 
 
@@ -19,14 +20,13 @@ files = []
 
 try: # 尝试获取文件列表
 	for name in os.listdir("../"):
-		rs = []
 		for i in excludeList: # 获取排除列表
-			rs.append(re.search(i, name) == None) # 判断是否符合排除规则
-		if False not in rs: # 获取文件列表
+			if re.search(i, name) != None: # 若匹配到排除规则
+				break
 			files.append('../' + name)
-	print(dumpsJSON(files))
-except: # 若获取失败
+except Exception as e: # 若获取失败
 	print('获取文件列表失败！')
+	print(e)
 	sys.exit(0)
 
 
@@ -49,20 +49,23 @@ try: # 尝试复制文件
 	print('-' * 20)
 	print('正在压缩中……')
 	try: # 压缩
-		walkResult = tuple(os.walk('../ProgramFiles/'))
-		f = zipfile.ZipFile('../ProgramFiles/ProgramFiles.zip', 'w', zipfile.ZIP_DEFLATED)
+		walkResult = tuple(os.walk('../ProgramFiles/')) # 提前获取 walk 结果，防止把在压缩过程中把不完整的压缩包一并压入压缩包
+		f = zipfile.ZipFile('../ProgramFiles/ProgramFiles.zip', 'w', zipfile.ZIP_DEFLATED) # 创建压缩包
 		try:
-			for root, dirs, subFiles in walkResult: # 压缩文件夹
+			for root, dirs, subFiles in walkResult: # 压缩文件
 				for name in subFiles:
 					f.write(path.join(root, name), '%s/%s' % (root.replace('../ProgramFiles/', ''), name), compresslevel=9)
 			print('压缩成功！')
-		except:
+		except Exception as e:
 			print('压缩失败！')
+			print(e)
 		finally:
 			f.close()
-	except:
+	except Exception as e:
 		print('压缩失败！')
-except:
+		print(e)
+except Exception as e:
 	print('复制文件失败！')
+	print(e)
 	print('您可以自行复制这些文件：')
 	print(dumpsJSON(files))
